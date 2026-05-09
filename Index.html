@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Study and Focus Planner</title>
+</header>
+  <style>
+    body {
+      font-family: Arial;
+      margin: 0;
+      background: #fff0f6;
+    }
+
+    header {
+      background: #ff4d88;
+      color: white;
+      text-align: center;
+      padding: 15px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 15px;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    button {
+      background: #ff4d88;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #e6005c;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background: #ffe6f0;
+      margin-top: 8px;
+      padding: 10px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .timer {
+      font-size: 28px;
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    .done-btn {
+      background: #00c853;
+      width: auto;
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: none;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h2>💗 My Study and Focus Planner</h2>
+  <p style="font-style: italic; margin-top: 5px;"/>
+  <p style="font-style: italic; opacity: 0.8;">
+  “Small progress each day leads to big results.”
+
+  </p>
+</header>
+
+<div class="container">
+
+  <!-- TASKS -->
+  <div class="card">
+    <h3>📚 My Tasks</h3>
+    <input type="text" id="taskInput" placeholder="Add a study task...">
+    <button onclick="addTask()">Add Task</button>
+    <ul id="taskList"></ul>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="card">
+    <h3>📊 Progress</h3>
+    <p>Completed Tasks: <span id="count">0</span></p>
+  </div>
+
+  <!-- TIMER -->
+  <div class="card">
+    <h3>⏳ Focus Timer</h3>
+    <div class="timer" id="timer">25:00</div>
+    <button onclick="startTimer()">Start</button>
+    <button onclick="resetTimer()">Reset</button>
+  </div>
+
+</div>
+
+<script>
+let completed = 0;
+
+function addTask() {
+  let input = document.getElementById("taskInput");
+  if (input.value === "") return;
+
+  let li = document.createElement("li");
+
+  li.innerHTML = `
+    <span>${input.value}</span>
+    <button class="done-btn" onclick="completeTask(this)">Done</button>
+  `;
+
+  document.getElementById("taskList").appendChild(li);
+  input.value = "";
+}
+
+function completeTask(btn) {
+  btn.parentElement.remove();
+  completed++;
+  document.getElementById("count").innerText = completed;
+}
+
+// TIMER
+let time = 25 * 60;
+let running = false;
+let interval;
+
+function updateTimer() {
+  let m = Math.floor(time / 60);
+  let s = time % 60;
+  document.getElementById("timer").innerText =
+    m + ":" + (s < 10 ? "0" : "") + s;
+}
+
+function startTimer() {
+  if (running) return;
+  running = true;
+
+  interval = setInterval(() => {
+    if (time > 0) {
+      time--;
+      updateTimer();
+    } else {
+      clearInterval(interval);
+      alert("Focus session done 💗");
+      running = false;
+    }
+  }, 1000);
+}
+
+function resetTimer() {
+  clearInterval(interval);
+  time = 25 * 60;
+  running = false;
+  updateTimer();
+}
+
+updateTimer();
+</script>
+
+</body>
+</html>
+
+
+  
+
+
